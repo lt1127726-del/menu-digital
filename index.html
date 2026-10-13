@@ -816,6 +816,114 @@ margin-left: auto;
 }
 
 
+/* =====================================
+   VISOR DE FOTOS AMPLIADAS - LJ PIZZAS
+===================================== */
+
+#visor-imagem {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+#visor-imagem.aberto {
+    display: flex;
+    animation: aparecerVisor 0.25s ease;
+}
+
+#visor-imagem .imagem-ampliada {
+    display: block;
+    max-width: 95%;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 16px;
+    box-shadow: 0 0 35px rgba(255, 213, 79, 0.15);
+    cursor: zoom-out;
+    animation: ampliarImagem 0.25s ease;
+}
+
+#visor-imagem .fechar-visor {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 213, 79, 0.5);
+    border-radius: 50%;
+    background: #171717;
+    color: #FFD54F;
+    font-size: 28px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+#visor-imagem .fechar-visor:hover {
+    background: #302812;
+    transform: scale(1.08);
+}
+
+/* INDICA QUE LA FOTO SE PUEDE AMPLIAR */
+.card img {
+    cursor: zoom-in;
+}
+
+/* ANIMACIONES */
+@keyframes aparecerVisor {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes ampliarImagem {
+    from {
+        transform: scale(0.94);
+        opacity: 0.6;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ADAPTACIÓN A CELULARES */
+@media (max-width: 600px) {
+    #visor-imagem {
+        padding: 12px;
+    }
+
+    #visor-imagem .imagem-ampliada {
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: 12px;
+    }
+
+    #visor-imagem .fechar-visor {
+        top: 12px;
+        right: 12px;
+    }
+}
+
+/* RESPETA LA PREFERENCIA DE MENOS ANIMACIONES */
+@media (prefers-reduced-motion: reduce) {
+    #visor-imagem.aberto,
+    #visor-imagem .imagem-ampliada {
+        animation: none;
+    }
+}
+
+
   </style>
 </head>
 
@@ -1120,24 +1228,6 @@ margin-left: auto;
 
 </section>
 
-<!-- CUADRO FALE CONOSCO -->
-<footer class="contact-footer">
-
-    <div class="whatsapp-icon" aria-hidden="true">☎</div>
-
-    <div class="contact-info">
-        <p>¡Fale Conosco!</p>
-        <strong>WhatsApp: (96) 8424-1554</strong>
-        <small>Dirección • Horarios • Redes sociales</small>
-    </div>
-
-    <div class="seal">
-        <span>✦ Sabor✦</span>
-        <b>e Qualidade</b>
-    </div>
-
-</footer>
-
 
 <!-- CUADRO DE INFORMACIÓN Y CONTACTO -->
 <section class="cuadro-informacion" id="informacoes">
@@ -1224,8 +1314,107 @@ margin-left: auto;
     © 2026 <strong>LJ Pizzas</strong> • Menú digital
 </div>
 
+<!-- VENTANA DE IMAGEN AMPLIADA -->
+<div id="visor-imagem" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+
+    <button
+        type="button"
+        class="fechar-visor"
+        aria-label="Fechar imagem"
+    >×</button>
+
+    <img
+        class="imagem-ampliada"
+        src=""
+        alt=""
+    >
+
+</div>
+
+
 </main>
 
+
+<script>
+(() => {
+    const visor = document.getElementById('visor-imagem');
+
+    if (!visor || visor.dataset.inicializado === 'sim') return;
+
+    visor.dataset.inicializado = 'sim';
+
+    const imagemAmpliada = visor.querySelector('.imagem-ampliada');
+    const botaoFechar = visor.querySelector('.fechar-visor');
+
+    let imagemAnterior = null;
+
+    function abrirImagem(imagem) {
+        imagemAnterior = imagem;
+
+        imagemAmpliada.src = imagem.currentSrc || imagem.src;
+        imagemAmpliada.alt = imagem.alt || 'Imagem ampliada do cardápio';
+
+        visor.classList.add('aberto');
+        document.body.style.overflow = 'hidden';
+
+        botaoFechar.focus();
+    }
+
+    function fecharImagem() {
+        if (!visor.classList.contains('aberto')) return;
+
+        visor.classList.remove('aberto');
+        imagemAmpliada.src = '';
+        document.body.style.overflow = '';
+
+        if (imagemAnterior) {
+            imagemAnterior.focus?.();
+        }
+    }
+
+    document.addEventListener('click', function(evento) {
+        const imagem = evento.target.closest('.card img');
+
+        if (imagem) {
+            evento.preventDefault();
+            abrirImagem(imagem);
+            return;
+        }
+
+        if (
+            evento.target === visor ||
+            evento.target === imagemAmpliada ||
+            evento.target.closest('.fechar-visor')
+        ) {
+            fecharImagem();
+        }
+    });
+
+    document.addEventListener('keydown', function(evento) {
+        if (evento.key === 'Escape') {
+            fecharImagem();
+        }
+    });
+
+    // Permite abrir la imagen también con el teclado.
+    document.addEventListener('keydown', function(evento) {
+        if (
+            (evento.key === 'Enter' || evento.key === ' ') &&
+            evento.target.matches('.card img')
+        ) {
+            evento.preventDefault();
+            abrirImagem(evento.target);
+        }
+    });
+
+    // Hace que las imágenes del menú sean accesibles con el teclado.
+    document.querySelectorAll('.card img').forEach(imagem => {
+        imagem.tabIndex = 0;
+        imagem.setAttribute('role', 'button');
+        imagem.setAttribute('aria-label', 'Ampliar imagen: ' + (imagem.alt || 'produto'));
+    });
+})();
+</script>
 
 
 
