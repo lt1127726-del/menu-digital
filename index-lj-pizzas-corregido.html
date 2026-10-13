@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080808">
+  <title>LJ Pizzas | Menú Digital</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --negro: #080808;
+      --negro-panel: rgba(9, 9, 9, .94);
+      --amarillo: #ffd400;
+      --rojo: #e21b23;
+      --blanco: #f8f5ec;
+      --gris: #c8c4bb;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--blanco);
+      font-family: "Oswald", Arial, sans-serif;
+      background-color: #080808;
+      /* Textura oscura de papel arrugado creada con CSS; no necesita imagen. */
+      background-image:
+        radial-gradient(ellipse at 12% 18%, rgba(255,255,255,.09), transparent 18%),
+        radial-gradient(ellipse at 82% 12%, rgba(255,255,255,.055), transparent 22%),
+        radial-gradient(ellipse at 65% 42%, rgba(0,0,0,.96), transparent 30%),
+        radial-gradient(ellipse at 20% 65%, rgba(255,255,255,.045), transparent 25%),
+        radial-gradient(ellipse at 90% 80%, rgba(255,255,255,.055), transparent 18%),
+        repeating-linear-gradient(115deg, rgba(255,255,255,.025) 0 1px, transparent 1px 7px),
+        repeating-linear-gradient(25deg, rgba(0,0,0,.30) 0 2px, transparent 2px 11px),
+        linear-gradient(135deg, #181818 0%, #050505 42%, #191919 70%, #080808 100%);
+      background-attachment: fixed;
+    }
+
+    /* BARRA SUPERIOR FLOTANTE */
+    .topbar {
+      position: sticky;
+      top: 8px;
+      z-index: 1000;
+      width: min(1200px, calc(100% - 20px));
+      min-height: 76px;
+      margin: 8px auto 0;
+      padding: 9px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background: rgba(5, 5, 5, .94);
+      border: 2px solid var(--amarillo);
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.7);
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      color: white;
+      text-decoration: none;
+    }
+
+    .brand img {
+      display: block;
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .brand-name {
+      font-family: "Anton", Impact, sans-serif;
+      font-size: clamp(20px, 3vw, 30px);
+      line-height: 1;
+      color: var(--amarillo);
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0 #8b1111;
+    }
+
+    .brand-name small {
+      display: block;
+      margin-top: 5px;
+      font: 700 10px/1.2 "Oswald", sans-serif;
+      color: white;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .nav-links a {
+      padding: 8px 10px;
+      color: white;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,212,0,.55);
+      border-radius: 4px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: #080808;
+      background: var(--amarillo);
+    }
+
+    /* CARTEL PRINCIPAL */
+    .menu-poster {
+      width: min(1200px, calc(100% - 20px));
+      margin: 18px auto 30px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(110px, 1fr) minmax(0, 2fr) minmax(110px, 1fr);
+      align-items: center;
+      gap: 16px;
+      padding: clamp(20px, 4vw, 45px) 18px;
+      text-align: center;
+      border: 2px solid var(--amarillo);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0,0,0,.94), rgba(20,20,20,.82));
+      box-shadow: 0 12px 28px rgba(0,0,0,.55);
+    }
+
+    .hero-food {
+      min-height: 145px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      overflow: hidden;
+      color: #aaa;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .hero-food img {
+      display: block;
+      width: 100%;
+      max-height: 190px;
+      object-fit: contain;
+    }
+
+    .placeholder {
+      border: 1px dashed rgba(255,212,0,.6);
+      background: rgba(255,255,255,.035);
+      color: #bdb8a8;
+    }
+
+    .eyebrow {
+      margin: 0 0 9px;
+      color: var(--rojo);
+      font-size: clamp(11px, 1.6vw, 17px);
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--blanco);
+      font: clamp(42px, 8vw, 88px)/.95 "Anton", Impact, sans-serif;
+      text-transform: uppercase;
+      text-shadow: 4px 4px 0 #a70e12, 7px 7px 0 #000;
+      letter-spacing: 1px;
+    }
+
+    h1 span { display: block; color: var(--amarillo); }
+
+    .tagline {
+      margin: 14px 0 12px;
+      color: white;
+      font-size: clamp(15px, 2vw, 22px);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .flag-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .flag-row span {
+      display: inline-block;
+      padding: 6px 9px;
+      color: #080808;
+      background: var(--amarillo);
+      font-size: 11px;
+      font-weight: 700;
+      transform: skew(-5deg);
+    }
+
+    .featured-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 24px 0 18px;
+      padding: 10px;
+      color: #080808;
+      background: var(--amarillo);
+      border: 3px solid #111;
+      outline: 1px solid var(--amarillo);
+      text-align: center;
+    }
+
+    .featured-title h2 {
+      margin: 0;
+      font: clamp(26px, 5vw, 45px)/1 "Anton", Impact, sans-serif;
+      text-transform: uppercase;
+    }
+
+    .featured-title span { color: var(--rojo); font-size: 25px; }
+
+    /* CUATRO PANELES DEL MENÚ */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .menu-panel {
+      min-width: 0;
+      padding: 13px;
+      background: var(--negro-panel);
+      border: 1px solid var(--amarillo);
+      border-radius: 8px;
+      box-shadow: 0 7px 20px rgba(0,0,0,.42);
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      padding: 9px 11px;
+      color: white;
+      font: 700 clamp(19px, 3vw, 28px)/1.1 "Anton", Impact, sans-serif;
+      text-transform: uppercase;
+      border-left: 7px solid white;
+      text-shadow: 2px 2px 0 rgba(0,0,0,.65);
+    }
+
+    .section-title.red { background: #b71920; }
+    .section-title.yellow { background: #d6a900; color: #090909; border-left-color: var(--rojo); }
+    .section-title.blue { background: #1457a3; }
+    .section-title.green { background: #26852c; }
+
+    .menu-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 2px;
+      border-bottom: 1px dashed rgba(255,212,0,.45);
+    }
+
+    .menu-item h4 {
+      margin: 0 0 3px;
+      color: white;
+      font-size: clamp(16px, 2vw, 21px);
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .menu-item p {
+      margin: 0;
+      color: #d0ccc2;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .menu-item strong {
+      flex-shrink: 0;
+      padding: 4px 7px;
+      color: #080808;
+      background: var(--amarillo);
+      font-size: clamp(15px, 2vw, 21px);
+      font-weight: 700;
+      white-space: nowrap;
+      border-radius: 2px;
+    }
+
+    .photo-slot {
+      min-height: 135px;
+      margin-top: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .photo-slot img {
+      display: block;
+      width: 100%;
+      max-height: 230px;
+      object-fit: cover;
+    }
+
+    /* FRANJA INFERIOR DE CATEGORÍAS */
+    .category-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 22px 0;
+      padding: 12px 0;
+      border-top: 2px solid var(--rojo);
+      border-bottom: 2px solid var(--amarillo);
+    }
+
+    .category-strip > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 0;
+      padding: 8px 4px;
+      border-right: 1px solid var(--rojo);
+    }
+
+    .category-strip > div:last-child { border-right: 0; }
+
+    .mini-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 48px;
+      flex-shrink: 0;
+      border: 1px dashed var(--amarillo);
+      color: #c8c4bb;
+      font-size: 10px;
+    }
+
+    .category-strip b {
+      color: white;
+      font-size: clamp(11px, 1.6vw, 16px);
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .category-strip em { color: var(--amarillo); font-style: normal; }
+
+    /* CONTACTO */
+    .contact-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 20px;
+      background: rgba(0,0,0,.92);
+      border: 2px solid var(--amarillo);
+      border-radius: 9px;
+    }
+
+    .contact-info { flex: 1; min-width: 0; }
+
+    .contact-info p {
+      margin: 0 0 3px;
+      color: var(--amarillo);
+      font-size: 19px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .contact-info strong {
+      display: block;
+      overflow-wrap: anywhere;
+      color: white;
+      font: clamp(20px, 4vw, 34px)/1.1 "Anton", Impact, sans-serif;
+    }
+
+    .contact-info small { display: block; margin-top: 8px; color: #c8c4bb; }
+
+    .whatsapp-icon {
+      width: 56px;
+      height: 56px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #080808;
+      background: #25d366;
+      border-radius: 50%;
+      font-size: 31px;
+      font-weight: 700;
+    }
+
+    .seal {
+      width: 110px;
+      height: 86px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 7px;
+      color: white;
+      background: #a9151a;
+      border: 3px solid var(--amarillo);
+      transform: rotate(-5deg);
+      text-align: center;
+      line-height: 1.1;
+      clip-path: polygon(8% 0, 92% 0, 100% 20%, 92% 50%, 100% 80%, 92% 100%, 8% 100%, 0 80%, 8% 50%, 0 20%);
+    }
+
+    .seal span { font-size: 12px; }
+    .seal b { color: var(--amarillo); font: 20px/1 "Anton", Impact, sans-serif; }
+
+    .copyright {
+      padding: 20px 10px 28px;
+      color: #aaa;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    /* TABLET Y MÓVIL */
+    @media (max-width: 760px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-food { min-height: 75px; }
+      .hero-food.side-photo { display: none; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .category-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .category-strip > div:nth-child(2) { border-right: 0; }
+      .category-strip > div:nth-child(-n+2) { border-bottom: 1px solid var(--rojo); }
+      .nav-links a { font-size: 10px; padding: 7px 6px; }
+    }
+
+    @media (max-width: 480px) {
+      .topbar {
+        top: 4px;
+        width: calc(100% - 10px);
+        margin-top: 4px;
+        padding: 8px;
+        gap: 6px;
+      }
+
+      .brand { gap: 6px; }
+      .brand img { width: 40px; height: 40px; }
+      .brand-name { font-size: 18px; }
+      .brand-name small { font-size: 8px; letter-spacing: 1px; }
+      .nav-links { max-width: 49%; gap: 3px; }
+      .nav-links a { padding: 6px 4px; font-size: 9px; }
+      .menu-poster { width: calc(100% - 12px); margin-top: 12px; }
+      .hero { padding: 25px 12px; }
+      .flag-row span { font-size: 9px; }
+      .menu-panel { padding: 9px; }
+      .menu-item { gap: 7px; }
+      .menu-item p { font-size: 12px; }
+      .contact-footer { flex-wrap: wrap; padding: 13px; gap: 10px; }
+      .whatsapp-icon { width: 44px; height: 44px; font-size: 24px; }
+      .contact-info { flex-basis: calc(100% - 60px); }
+      .seal { margin-left: auto; }
+    }
+
+/* TARJETAS DE PRODUCTOS */
+.card {
+display: flex;
+flex-direction: row;
+align-items: center;
+gap: 12px;
+padding: 10px;
+overflow: hidden;
+text-align: left;
+border-radius: 8px;
+background: rgba(255, 255, 255, 0.03);
+border: 1px solid rgba(255, 213, 79, 0.2);
+}
+
+.card img {
+display: block;
+flex: 0 0 100px;
+width: 100px;
+height: 100px;
+object-fit: contain;
+margin: 0;
+border-radius: 8px;
+}
+
+.card h3 {
+font-size: 14px;
+margin: 0 0 8px;
+line-height: 1.4;
+}
+
+.card p {
+font-size: 13px;
+margin: 5px 0;
+}
+
+
+/* CONTENEDOR DEL PRODUCTO */
+.card {
+display: flex;
+flex-direction: row;
+align-items: center;
+gap: 12px;
+padding: 12px;
+overflow: visible;
+text-align: left;
+border-radius: 8px;
+background: rgba(255, 255, 255, 0.03);
+border: 1px solid rgba(255, 213, 79, 0.2);
+}
+
+/* IMAGEN A LA IZQUIERDA */
+.card img {
+flex: 0 0 90px;
+width: 90px;
+height: 90px;
+object-fit: contain;
+margin: 0;
+border-radius: 8px;
+}
+
+/* INFORMACIÓN DEL PRODUCTO */
+.card-info {
+flex: 1;
+min-width: 0;
+}
+
+.card h3 {
+font-size: 14px;
+line-height: 1.4;
+margin: 0 0 8px;
+color: #fff;
+}
+
+/* PRECIO CON EFECTO DE BROCHAZO */
+.precio-brochazo {
+position: relative;
+display: inline-block;
+flex-shrink: 0;
+padding: 9px 13px;
+margin-left: auto;
+color: #111;
+font-size: 14px;
+font-weight: 900;
+white-space: nowrap;
+isolation: isolate;
+transform: rotate(-3deg);
+}
+
+.precio-brochazo::before {
+content: "";
+position: absolute;
+z-index: -1;
+inset: 3px -5px;
+background: #FFD54F;
+clip-path: polygon(
+3% 19%, 18% 8%, 35% 13%, 49% 3%,
+67% 12%, 83% 5%, 98% 17%, 94% 37%,
+100% 58%, 89% 73%, 95% 91%, 71% 87%,
+52% 98%, 33% 88%, 12% 94%, 5% 76%,
+0 57%, 6% 38%
+);
+}
+
+.precio-brochazo:hover {
+transform: rotate(0deg) scale(1.06);
+}
+
+/* PRECIOS DE PIZZAS CON VARIOS TAMAÑOS */
+.precios-pizza {
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+justify-content: center;
+gap: 8px;
+margin-left: auto;
+}
+
+.preco-linha {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    font-size: 12px;
+    color: #ddd;
+    white-space: nowrap;
+}
+
+
+/* FOTOS DE PORTADA: ESTILO OSCURO Y MISTERIOSO */
+.hero-food.side-photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}
+
+/* IMAGEN CON COLORES SUAVIZADOS */
+.hero-food.side-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    border-radius: 24px;
+    opacity: 1;
+    filter: saturate(0.72) brightness(0.82);
+
+    transition: filter 0.4s ease;
+}
+
+/* VELO OSCURO TRANSLÚCIDO SOBRE LA FOTO */
+.hero-food.side-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+
+    background: rgba(15, 15, 15, 0.30);
+
+    pointer-events: none;
+}
+
+/* AL PASAR EL RATÓN, LA FOTO SE ACLARA SUTILMENTE */
+.hero-food.side-photo:hover img {
+    filter: saturate(0.85) brightness(0.92);
+}
+
+/* NAVEGADOR CON ICONOS */
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    font-size: 22px;
+    text-decoration: none;
+
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 213, 79, 0.12);
+    transform: translateY(-3px);
+}
+
+/* ADAPTACIÓN PARA PANTALLAS PEQUEÑAS */
+@media (max-width: 600px) {
+    .nav-links {
+        gap: 5px;
+    }
+
+    .nav-links a {
+        width: 34px;
+        height: 36px;
+        font-size: 19px;
+    }
+}
+
+/* INFORMACIÓN DE CONTACTO */
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.icone {
+    flex-shrink: 0;
+    font-size: 17px;
+    line-height: 1.4;
+}
+
+.info-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 0;
+}
+
+.info-texto strong {
+    color: #FFD54F;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.info-texto a,
+.info-texto span {
+    color: #ccc;
+    font-size: 11px;
+    line-height: 1.6;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.info-texto a {
+    transition: color 0.25s ease;
+}
+
+.info-texto a:hover {
+    color: #FFD54F;
+}
+
+
+/* CUADRO GENERAL DE INFORMACIÓN */
+.cuadro-informacion {
+    width: min(90%, 650px);
+    box-sizing: border-box;
+    margin: 30px auto;
+    padding: 22px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+}
+
+/* TÍTULO */
+.cuadro-informacion h2 {
+    margin: 0 0 18px;
+    text-align: center;
+    color: #FFD54F;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+/* LISTA DE INFORMACIÓN */
+.lista-informacoes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* CADA DATO */
+.lista-informacoes .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    padding: 8px 0;
+    background: transparent;
+    border: none;
+}
+
+/* ICONOS */
+.lista-informacoes .icone {
+    flex-shrink: 0;
+    font-size: 16px;
+}
+
+/* TEXTO */
+.lista-informacoes .info-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 0;
+}
+
+/* TÍTULOS PEQUEÑOS */
+.lista-informacoes .info-texto strong {
+    color: #FFD54F;
+    font-size: 12px;
+}
+
+/* ENLACES Y HORARIOS */
+.lista-informacoes .info-texto a,
+.lista-informacoes .info-texto span {
+    color: #ccc;
+    font-size: 11px;
+    line-height: 1.6;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+/* EFECTO AL PASAR EL RATÓN */
+.lista-informacoes .info-texto a:hover {
+    color: #FFD54F;
+}
+
+/* ADAPTACIÓN A MÓVILES */
+@media (max-width: 480px) {
+    .cuadro-informacion {
+        width: 94%;
+        padding: 16px;
+    }
+}
+
+
+  </style>
+</head>
+
+<body>
+  <!-- BARRA FLOTANTE: coloca el logo dentro de imagens y llámalo logo.png -->
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Volver al inicio">
+      <img src="0.png">
+      <span class="brand-name">LJ Pizzas<small>SABOR E QUALIDADE</small></span>
+    </a>
+    
+
+<nav class="nav-links" aria-label="Categorias do cardápio">
+    <a href="#pizzas" aria-label="Pizzas" title="Pizzas">🍕</a>
+    <a href="#hamburguesas" aria-label="Hambúrgueres" title="Hambúrgueres">🍔</a>
+    <a href="#perros" aria-label="Hot Dogs" title="Hot Dogs">🌭</a>
+    <a href="#papas" aria-label="Acompanhamentos" title="Acompanhamentos">🍟</a>
+    <a href="#molhos" aria-label="Molhos" title="Molhos">🥫</a>
+    <a href="#sobremesas" aria-label="Sobremesas" title="Sobremesas">🍮</a>
+    <a href="#bebidas" aria-label="Bebidas" title="Bebidas">🥤</a>
+</nav>
+
+
+
+
+  </header>
+
+  <main class="menu-poster" id="inicio">
+    <header class="hero">
+     <div class="hero-food side-photo">
+  <img src="https://resizer.glanacion.com/resizer/v2/como-recalentar-la-pizza-sin-necesidad-del-horno-6SRF345EUNGTXIGMCTUHMZXTIA.png?auth=16f478c62240ba8a77dbfa47ae3fd8f574594cfeb454e0911ebcdb1f48a73b60&height=854&quality=70&smart=true&width=1280"
+       alt="Pizza de pepperoni con queso derretido">
+</div>
+      <div class="brand-block">
+        <p class="eyebrow">Sabor • Tradição • Qualidade</p>
+        <h1>LJ <span>PIZZAS</span></h1>
+        <p class="tagline">¡O sabor que você ama!</p>
+        <div class="flag-row">
+          <span>🍕 Feito com sabor</span>
+          <span>🔥 Preparado na hora</span>
+        </div>
+      </div>
+     <div class="hero-food side-photo">
+  <img src="https://www.delicaegourmet.com/images/product/bourbonfood.png"
+       alt="Hamburguesa gourmet con queso y bacon">
+</div>
+    </header>
+
+    <section class="featured-title">
+      <span>✦</span><h2>Nosso Cardápio</h2><span>✦</span>
+    </section>
+
+   <section class="menu-grid">
+
+<!-- ================= PIZZAS ================= -->
+
+<article class="menu-panel" id="pizzas">
+    <h2 class="section-title red">🍕 PIZZAS</h2>
+    <div class="productos">
+
+
+    <div class="card">
+        <img src="1.png" alt="Pizza Barbacoa">
+        <div class="card-info"><h3>PIZZA BARBACOA</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$35,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$51,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$67,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="2.png" alt="Pizza Quatro Queijos">
+        <div class="card-info"><h3>PIZZA QUATRO QUEIJOS</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$39,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$55,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$71,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="3.png" alt="Pizza Cubana de Queijo">
+        <div class="card-info"><h3>PIZZA CUBANA DE QUEIJO</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$44,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$61,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$78,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="4.png" alt="Pizza Hawaiana">
+        <div class="card-info"><h3>PIZZA HAWAIANA</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$37,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$53,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$69,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="5.png" alt="Pizza Margarita">
+        <div class="card-info"><h3>PIZZA MARGARITA</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$34,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$49,20</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$64,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="6.png" alt="Pizza Napolitana">
+        <div class="card-info"><h3>PIZZA NAPOLITANA</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$34,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$49,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$64,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="7.png" alt="Pizza Pepperoni">
+        <div class="card-info"><h3>PIZZA PEPPERONI</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$41,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$57,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$69,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="8.png" alt="Pizza Frango BBQ">
+        <div class="card-info"><h3>PIZZA FRANGO BBQ</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$39,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$54,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$79,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="9.png" alt="Pizza Suprema">
+        <div class="card-info"><h3>PIZZA SUPREMA</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$41,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$57,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$73,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="10.png" alt="Pizza Vegetariana">
+        <div class="card-info"><h3>PIZZA VEGETARIANA</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$36,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$52,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$68,90</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="10(1).png" alt="Pizza Atum">
+        <div class="card-info"><h3>PIZZA ATUM</h3></div>
+        <div class="precios-pizza">
+            <div class="preco-linha"><span class="preco-tamanho">25 cm</span><span class="precio-brochazo">R$38,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">30 cm</span><span class="precio-brochazo">R$54,90</span></div>
+            <div class="preco-linha"><span class="preco-tamanho">35 cm</span><span class="precio-brochazo">R$69,90</span></div>
+        </div>
+    </div>
+
+</div>
+
+
+</article>
+
+<!-- ================= HAMBURGUESAS ================= -->
+
+<article class="menu-panel" id="hamburguesas">
+    <h2 class="section-title yellow">🍔 HAMBÚRGUERES</h2>
+    <div class="productos">
+
+
+    <div class="card"><img src="12.png" alt="Hambúrguer Hawaiana"><div class="card-info"><h3>HAMBURGER HAWAIANA 150g</h3></div><span class="precio-brochazo">R$34,90</span></div>
+    <div class="card"><img src="15.png" alt="Hambúrguer Duplo Queijo"><div class="card-info"><h3>HAMBURGER DOBRO QUEIJO 150g</h3></div><span class="precio-brochazo">R$29,90</span></div>
+    <div class="card"><img src="16.png" alt="Hambúrguer Clássica"><div class="card-info"><h3>HAMBURGER CLÁSSICA 150g</h3></div><span class="precio-brochazo">R$29,90</span></div>
+    <div class="card"><img src="19.png" alt="Hambúrguer Bacon"><div class="card-info"><h3>HAMBURGER BACON 150g</h3></div><span class="precio-brochazo">R$35,90</span></div>
+    <div class="card"><img src="18.png" alt="Hambúrguer Duplo Bacon"><div class="card-info"><h3>HAMBURGER DOBRO BACON 150g</h3></div><span class="precio-brochazo">R$42,90</span></div>
+    <div class="card"><img src="11.png" alt="Hambúrguer Frango BBQ"><div class="card-info"><h3>HAMBURGER FRANGO BBQ 150g</h3></div><span class="precio-brochazo">R$37,90</span></div>
+    <div class="card"><img src="13.png" alt="Hambúrguer Suprema"><div class="card-info"><h3>HAMBURGER SUPREMA 150g</h3></div><span class="precio-brochazo">R$44,90</span></div>
+    <div class="card"><img src="17.png" alt="Hambúrguer Crispy Chicken"><div class="card-info"><h3>HAMBURGER CRISPY CHICKEN 150g</h3></div><span class="precio-brochazo">R$34,90</span></div>
+    <div class="card"><img src="19(1).png" alt="Hambúrguer Cubana de Queijo"><div class="card-info"><h3>HAMBURGER CUBANA DE QUEIJO 150g</h3></div><span class="precio-brochazo">R$46,90</span></div>
+
+</div>
+
+</article>
+
+<!-- ================= HOT DOGS ================= -->
+
+<article class="menu-panel" id="perros">
+    <h2 class="section-title red">🌭 HOT DOGS</h2>
+    <div class="productos">
+
+
+    <div class="card"><img src="20(1).png" alt="Hot Dog Tradicional"><div class="card-info"><h3>HOT DOG TRADICIONAL</h3></div><span class="precio-brochazo">R$28,90</span></div>
+    <div class="card"><img src="20(2).png" alt="Hot Dog Especial da Casa"><div class="card-info"><h3>HOT DOG ESPECIAL DA CASA</h3></div><span class="precio-brochazo">R$29,90</span></div>
+    <div class="card"><img src="20(3).png" alt="Hot Dog Duplo"><div class="card-info"><h3>HOT DOG DUPLO</h3></div><span class="precio-brochazo">R$27,90</span></div>
+    <div class="card"><img src="20(4).png" alt="Hot Dog Bacon"><div class="card-info"><h3>HOT DOG BACON</h3></div><span class="precio-brochazo">R$25,90</span></div>
+    <div class="card"><img src="20(5).png" alt="Hot Dog Completo"><div class="card-info"><h3>HOT DOG COMPLETO</h3></div><span class="precio-brochazo">R$22,90</span></div>
+    <div class="card"><img src="20(6).png" alt="Hot Dog Prensado"><div class="card-info"><h3>HOT DOG PRENSADO</h3></div><span class="precio-brochazo">R$25,90</span></div>
+
+
+
+</article>
+
+<!-- ================= ACOMPANHAMENTOS ================= -->
+
+<article class="menu-panel" id="papas">
+    <h2 class="section-title yellow">🍟 ACOMPANHAMENTOS</h2>
+    <div class="productos">
+
+
+    <div class="card"><img src="21.png" alt="Anéis de Cebola"><div class="card-info"><h3>ANÉIS DE CEBOLA 12u</h3></div><span class="precio-brochazo">R$18,90</span></div>
+    <div class="card"><img src="22.png" alt="Nuggets"><div class="card-info"><h3>NUGGETS 8u</h3></div><span class="precio-brochazo">R$19,90</span></div>
+    <div class="card"><img src="24.png" alt="Batatas Fritas"><div class="card-info"><h3>BATATAS FRITAS 250g</h3></div><span class="precio-brochazo">R$16,90</span></div>
+
+</div>
+
+
+</article>
+
+<!-- ================= MOLHOS ================= -->
+
+<article class="menu-panel" id="molhos">
+    <h2 class="section-title green">🥫 MOLHOS</h2>
+    <div class="productos">
+
+
+    <div class="card"><img src="25.jpg" alt="Molho de Alho"><div class="card-info"><h3>MOLHO DE ALHO</h3></div><span class="precio-brochazo">R$3,50</span></div>
+    <div class="card"><img src="27.jpg" alt="Ketchup"><div class="card-info"><h3>KETCHUP</h3></div><span class="precio-brochazo">R$2,50</span></div>
+    <div class="card"><img src="28.jpg" alt="Mostarda"><div class="card-info"><h3>MOSTARDA</h3></div><span class="precio-brochazo">R$2,50</span></div>
+    <div class="card"><img src="29.jpg" alt="Pimenta"><div class="card-info"><h3>PIMENTA</h3></div><span class="precio-brochazo">R$3,50</span></div>
+    <div class="card"><img src="30.jpg" alt="Molho BBQ"><div class="card-info"><h3>MOLHO BBQ</h3></div><span class="precio-brochazo">R$3,50</span></div>
+    <div class="card"><img src="30(1).jpg" alt="Maionese"><div class="card-info"><h3>MAIONESE</h3></div><span class="precio-brochazo">R$2,50</span></div>
+
+</div>
+
+
+</article>
+
+<!-- ================= SOBREMESAS ================= -->
+
+<article class="menu-panel" id="sobremesas">
+    <h2 class="section-title red">🍮 SOBREMESAS</h2>
+    <div class="productos">
+
+
+    <div class="card"><img src="30(2).png" alt="Pudim de Leite Condensado"><div class="card-info"><h3>PUDIM DE LEITE CONDENSADO</h3></div><span class="precio-brochazo">R$9,90</span></div>
+    <div class="card"><img src="30(3).png" alt="Pudim Cubano"><div class="card-info"><h3>PUDIM CUBANO</h3></div><span class="precio-brochazo">R$12,90</span></div>
+
+</div>
+
+
+</article>
+
+<!-- ================= BEBIDAS ================= -->
+
+<article class="menu-panel" id="bebidas">
+    <h2 class="section-title yellow">🥤 BEBIDAS</h2>
+    <div class="productos">
+
+    <div class="card"><img src="31.jpg" alt="Água com Gás"><div class="card-info"><h3>ÁGUA COM GÁS</h3></div><span class="precio-brochazo">R$5,50</span></div>
+    <div class="card"><img src="37.jpg" alt="Água sem Gás"><div class="card-info"><h3>ÁGUA SEM GÁS</h3></div><span class="precio-brochazo">R$4,90</span></div>
+    <div class="card"><img src="34.jpg" alt="Guaraná"><div class="card-info"><h3>GUARANÁ 350ml</h3></div><span class="precio-brochazo">R$6,90</span></div>
+    <div class="card"><img src="35.jpg" alt="Coca-Cola Zero"><div class="card-info"><h3>COCA-COLA ZERO 350ml</h3></div><span class="precio-brochazo">R$6,90</span></div>
+    <div class="card"><img src="41.jpg" alt="Coca-Cola"><div class="card-info"><h3>COCA-COLA 350ml</h3></div><span class="precio-brochazo">R$6,90</span></div>
+    <div class="card"><img src="36.jpg" alt="Fanta Laranja"><div class="card-info"><h3>FANTA LARANJA 350ml</h3></div><span class="precio-brochazo">R$6,90</span></div>
+    <div class="card"><img src="38.jpg" alt="Fanta Uva"><div class="card-info"><h3>FANTA UVA 350ml</h3></div><span class="precio-brochazo">R$6,90</span></div>
+    <div class="card"><img src="44.jpg" alt="Pepsi"><div class="card-info"><h3>PEPSI 350ml</h3></div><span class="precio-brochazo">R$6,90</span></div>
+    <div class="card"><img src="39.jpg" alt="Monster"><div class="card-info"><h3>MONSTER</h3></div><span class="precio-brochazo">R$10,90</span></div>
+
+</div>
+
+
+</article>
+
+<!-- ================= CERVEJAS ================= -->
+
+<article class="menu-panel" id="cervejas">
+    <h2 class="section-title green">🍺 CERVEJAS</h2>
+    <div class="productos">
+
+
+    <div class="card"><img src="32.jpg" alt="Cerveja Brahma"><div class="card-info"><h3>CERVEJA BRAHMA</h3></div><span class="precio-brochazo">R$9,90</span></div>
+    <div class="card"><img src="33.jpg" alt="Cerveja Corona Extra"><div class="card-info"><h3>CERVEJA CORONA EXTRA</h3></div><span class="precio-brochazo">R$9,90</span></div>
+    <div class="card"><img src="40.jpg" alt="Amstel Lager"><div class="card-info"><h3>AMSTEL LAGER</h3></div><span class="precio-brochazo">R$9,90</span></div>
+
+</div>
+
+
+</article>
+
+</section>
+
+<!-- CUADRO FALE CONOSCO -->
+<footer class="contact-footer">
+
+    <div class="whatsapp-icon" aria-hidden="true">☎</div>
+
+    <div class="contact-info">
+        <p>¡Fale Conosco!</p>
+        <strong>WhatsApp: (96) 8424-1554</strong>
+        <small>Dirección • Horarios • Redes sociales</small>
+    </div>
+
+    <div class="seal">
+        <span>✦ Sabor✦</span>
+        <b>e Qualidade</b>
+    </div>
+
+</footer>
+
+
+<!-- CUADRO DE INFORMACIÓN Y CONTACTO -->
+<section class="cuadro-informacion" id="informacoes">
+
+    <div class="lista-informacoes">
+
+        <div class="info-item">
+            <div class="icone">📍</div>
+            <div class="info-texto">
+                <strong>Endereço</strong>
+                <a href="https://maps.app.goo.gl/jGrRUDaFJNXL1BsB9" target="_blank" rel="noopener noreferrer">
+                    Rua Martinho Boschetti, 2013 - Picadas do Sul - São José
+                </a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <div class="icone">✉️</div>
+            <div class="info-texto">
+                <strong>E-mail</strong>
+                <a href="mailto:lt1127726@gmail.com">lt1127726@gmail.com</a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <div class="icone">📱</div>
+            <div class="info-texto">
+                <strong>WhatsApp</strong>
+                <a href="https://wa.me/559684241554" target="_blank" rel="noopener noreferrer">
+                    (96) 8424-1554
+                </a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <div class="icone">📘</div>
+            <div class="info-texto">
+                <strong>Facebook</strong>
+                <a href="https://www.facebook.com/profile.php?id=61592359494549" target="_blank" rel="noopener noreferrer">
+                    LJ Pizzas
+                </a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <div class="icone">📸</div>
+            <div class="info-texto">
+                <strong>Instagram</strong>
+                <a href="https://www.instagram.com/001lj2026/" target="_blank" rel="noopener noreferrer">
+                    @001lj2026
+                </a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <div class="icone">🎵</div>
+            <div class="info-texto">
+                <strong>TikTok</strong>
+                <a href="https://www.tiktok.com/@user5477168685128" target="_blank" rel="noopener noreferrer">
+                    LJ PIZZAS
+                </a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <div class="icone">🕒</div>
+            <div class="info-texto">
+                <strong>Horário de Funcionamento</strong>
+                <span>
+                    Segunda-feira: fechado<br>
+                    Terça a sexta: 10h às 22h<br>
+                    Sábado e domingo: 10h às 23h
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- COPYRIGHT -->
+<div class="copyright">
+    © 2026 <strong>LJ Pizzas</strong> • Menú digital
+</div>
+
+</main>
+
+
+
+
+</body>
+</html>
