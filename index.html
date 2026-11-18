@@ -922,84 +922,162 @@ margin-left: auto;
         animation: none;
     }
 }
+/* ==============================
+   CARRITO FLOTANTE LJ PIZZAS
+============================== */
 
+#botonCarrito {
 
-/* =========================================
-   LJ PIZZAS - PORTADA PARA TELEFONOS
-   FOTO | TEXTO | FOTO
-========================================= */
+    position: fixed;
 
-@media screen and (max-width: 768px) {
+    bottom: 25px;
+    right: 22px;
 
-    .hero {
-        display: grid !important;
-        grid-template-columns: 55px minmax(0, 1fr) 55px;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 12px 8px;
+    width: 65px;
+    height: 65px;
+
+    background: linear-gradient(
+        145deg,
+        #FFD54F,
+        #d4a017
+    );
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+
+    z-index: 9999;
+
+    transition: 0.3s;
+}
+
+#botonCarrito:hover {
+
+    transform: scale(1.10);
+
+    box-shadow: 0 7px 25px rgba(255,193,7,0.4);
+}
+
+.iconoCarrito {
+
+    font-size: 30px;
+
+}
+
+/* CONTADOR */
+
+#contador {
+
+    position: absolute;
+
+    top: -5px;
+    right: -5px;
+
+    background: #c62828;
+
+    color: white;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    min-width: 23px;
+    height: 23px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid white;
+
+}
+
+/* MOVILES */
+
+@media (max-width: 600px) {
+
+    #botonCarrito {
+
+        width: 58px;
+        height: 58px;
+
+        bottom: 18px;
+        right: 16px;
+
     }
 
-    .hero .hero-food.side-photo {
-        display: block !important;
-        width: 55px !important;
-        min-width: 55px !important;
-        max-width: 55px !important;
-        height: 55px !important;
-        min-height: 55px !important;
-        max-height: 55px !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        position: relative;
-        overflow: hidden;
-        border-radius: 9px;
-        box-sizing: border-box;
+    .iconoCarrito {
+
+        font-size: 26px;
+
     }
 
-    .hero .hero-food.side-photo img {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        max-width: none !important;
-        max-height: none !important;
-        object-fit: cover;
-        border-radius: 9px;
-        opacity: 1;
-        filter: saturate(.72) brightness(.82);
-    }
+}
+/* =====================================
+   PRECIOS INTERACTIVOS - LJ PIZZAS
+===================================== */
 
-    .hero .hero-food.side-photo::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(15, 15, 15, .18);
-        border-radius: 9px;
-        pointer-events: none;
-    }
+.precio-brochazo {
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .25s ease, filter .25s ease;
+}
 
-    .hero .brand-block {
-        display: block !important;
-        min-width: 0;
-        width: 100%;
-        margin: 0 !important;
-        padding: 0 !important;
-        text-align: center;
-    }
+.precio-brochazo:hover {
+    transform: rotate(0deg) scale(1.08);
+    filter: brightness(1.12);
+}
 
-    .hero .brand-block h1 {
-        font-size: clamp(17px, 5vw, 23px);
-        line-height: 1.15;
-        margin: 4px 0;
-        white-space: nowrap;
-    }
+.precio-brochazo:active {
+    transform: scale(.94);
+}
 
-    .hero .brand-block p {
-        font-size: 10px;
-        line-height: 1.4;
-        margin: 4px 0;
-    }
+/* ANIMACIÓN DE PRODUCTO HACIA EL CARRITO */
+
+.volar {
+    position: fixed;
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    border-radius: 50%;
+    z-index: 99999;
+    pointer-events: none;
+    transition: all .7s ease-in-out;
+}
+
+/* REBOTE DEL CARRITO */
+
+@keyframes reboteCarrito {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.25); }
+    60% { transform: scale(.90); }
+    100% { transform: scale(1); }
+}
+
+#botonCarrito.rebote {
+    animation: reboteCarrito .5s ease;
+}
+
+/* SELECCIÓN ELEGANTE DEL PRECIO */
+
+.precio-brochazo.seleccionado {
+    outline: 1.5px solid #D6B45A;
+    outline-offset: 2px;
+    border-radius: 4px;
+
+    box-shadow: 0 0 7px rgba(214, 180, 90, 0.30);
+
+    filter: brightness(1.12);
+
+    transition: all 0.25s ease;
 }
 
   </style>
@@ -1492,9 +1570,205 @@ margin-left: auto;
         imagem.setAttribute('aria-label', 'Ampliar imagen: ' + (imagem.alt || 'produto'));
     });
 })();
+
+
+
+
 </script>
 
 
+<!-- CARRITO FLOTANTE - MENU DIGITAL -->
 
+<a href="carrito.html" id="botonCarrito">
+    <span class="iconoCarrito">🛒</span>
+    <span id="contador">0</span>
+</a>
+
+
+<!-- =====================================
+     LJ PIZZAS - CONEXIÓN CON EL CARRITO
+===================================== -->
+
+<script src="carrito.js"></script>
+
+<script>
+
+/* CONVERTIR PRECIO BRASILEÑO A NÚMERO */
+
+function convertirPrecio(valor) {
+
+    return Number(
+        valor
+            .replace("R$", "")
+            .replace(/\./g, "")
+            .replace(",", ".")
+            .trim()
+    );
+
+}
+
+
+/* ANIMACIÓN DEL PRODUCTO HACIA EL CARRITO */
+
+function animarProducto(card) {
+
+    const imagen = card.querySelector("img");
+    const carritoBoton = document.getElementById("botonCarrito");
+
+    if (!imagen || !carritoBoton) return;
+
+    const copia = imagen.cloneNode(true);
+
+    copia.classList.add("volar");
+
+    const origen = imagen.getBoundingClientRect();
+    const destino = carritoBoton.getBoundingClientRect();
+
+    copia.style.left = origen.left + "px";
+    copia.style.top = origen.top + "px";
+
+    document.body.appendChild(copia);
+
+    requestAnimationFrame(() => {
+
+        copia.style.left = destino.left + "px";
+        copia.style.top = destino.top + "px";
+        copia.style.width = "20px";
+        copia.style.height = "20px";
+        copia.style.opacity = "0";
+
+    });
+
+    carritoBoton.classList.remove("rebote");
+
+    void carritoBoton.offsetWidth;
+
+    carritoBoton.classList.add("rebote");
+
+    setTimeout(() => {
+        copia.remove();
+        carritoBoton.classList.remove("rebote");
+    }, 750);
+
+}
+
+
+/* ACTUALIZAR CONTADOR */
+
+function actualizarContadorMenu() {
+
+    const contador = document.getElementById("contador");
+
+    if (!contador) return;
+
+    const carrito = JSON.parse(
+        localStorage.getItem("carritoMenuDigital") || "[]"
+    );
+
+    const cantidad = carrito.reduce((total, producto) => {
+        return total + Number(producto.cantidad || 0);
+    }, 0);
+
+    contador.textContent = cantidad;
+}
+/* =====================================
+   CLIC EN LOS PRECIOS
+   PRIMER CLIC: AGREGAR
+   SEGUNDO CLIC: QUITAR
+===================================== */
+
+document.addEventListener("click", function(event) {
+
+    const boton = event.target.closest(".precio-brochazo");
+
+    if (!boton) return;
+
+    const card = boton.closest(".card");
+
+    if (!card) return;
+
+    const nombreBase =
+        card.querySelector(".card-info h3, h3")?.textContent.trim();
+
+    if (!nombreBase) return;
+
+    /* IDENTIFICAR TAMAÑO DE PIZZA */
+
+    const linha = boton.closest(".preco-linha");
+
+    const tamanho = linha?.querySelector(".preco-tamanho")?.textContent.trim();
+
+    const nombreProducto = tamanho
+        ? nombreBase + " - " + tamanho
+        : nombreBase;
+
+    /* OBTENER PRECIO */
+
+    const valor = convertirPrecio(boton.textContent);
+
+    if (!Number.isFinite(valor) || valor <= 0) return;
+
+    /* LEER CARRITO */
+
+    let carrito = JSON.parse(
+        localStorage.getItem("carritoMenuDigital")
+    ) || [];
+
+    /* BUSCAR PRODUCTO EXACTO */
+
+    const indice = carrito.findIndex(producto =>
+        producto.nombre === nombreProducto
+    );
+
+    /* SI YA EXISTE, ELIMINAR */
+
+    if (indice !== -1) {
+
+        carrito.splice(indice, 1);
+
+        boton.classList.remove("seleccionado");
+
+    }
+
+    /* SI NO EXISTE, AGREGAR */
+
+    else {
+
+        carrito.push({
+            nombre: nombreProducto,
+            precio: valor,
+            cantidad: 1
+        });
+
+        boton.classList.add("seleccionado");
+
+        animarProducto(card);
+
+    }
+
+    /* GUARDAR */
+
+    localStorage.setItem(
+        "carritoMenuDigital",
+        JSON.stringify(carrito)
+    );
+
+    /* ACTUALIZAR CONTADOR */
+
+    actualizarContadorMenu();
+
+});
+
+
+/* =====================================
+   INICIALIZAR CONTADOR
+===================================== */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    actualizarContadorMenu();
+
+});
+</script>
 </body>
 </html>

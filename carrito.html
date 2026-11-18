@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Meu Carrinho | LJ PIZZAS</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#111;
+    color:white;
+}
+
+/* HEADER */
+
+header{
+    background:#1b1b1b;
+    padding:18px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:3px solid #ff9800;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo img{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.logo h1{
+    color:#FFD54F;
+    font-size:32px;
+}
+
+/* CONTENEDOR */
+
+.container{
+
+    width:95%;
+    max-width:900px;
+
+    margin:40px auto;
+
+}
+
+/* TITULO */
+
+.titulo{
+
+    text-align:center;
+
+    color:#FFD54F;
+
+    font-size:36px;
+
+    margin-bottom:40px;
+
+}
+
+/* TARJETAS */
+
+.produto{
+
+    background:#222;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    margin-bottom:25px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border:2px solid #333;
+
+    transition:.3s;
+
+}
+
+.produto:hover{
+
+    border-color:#ff9800;
+
+}
+
+/* INFORMACION */
+
+.info h3{
+
+    color:#FFD54F;
+
+    font-size:24px;
+
+    margin-bottom:8px;
+
+}
+
+.info p{
+
+    color:#ddd;
+
+    font-size:18px;
+
+}
+
+/* CANTIDAD */
+
+.quantidade{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.quantidade button{
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#ff9800;
+
+    color:white;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+}
+
+.quantidade span{
+
+    font-size:24px;
+
+    width:35px;
+
+    text-align:center;
+
+}
+
+/* RESUMEN */
+
+.resumo{
+
+    margin-top:40px;
+
+    background:#222;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    border:2px solid #ff9800;
+
+}
+
+.resumo h2{
+
+    color:#FFD54F;
+
+    margin-bottom:20px;
+
+}
+
+.resumo p{
+
+    font-size:22px;
+
+    margin:12px 0;
+
+}
+
+/* BOTONES */
+
+.botoes{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:35px;
+
+    gap:20px;
+
+}
+
+.botao{
+
+    flex:1;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.voltar{
+
+    background:#444;
+
+    color:white;
+
+}
+
+.voltar:hover{
+
+    background:#666;
+
+}
+
+.whatsapp{
+
+    background:#25D366;
+
+    color:white;
+
+}
+
+.whatsapp:hover{
+
+    background:#1fa851;
+
+}
+/* =========================================
+   RESPONSIVE TABLETS
+========================================= */
+
+@media (max-width:992px){
+
+    .container{
+        width:94%;
+        margin:30px auto;
+    }
+
+    .logo h1{
+        font-size:28px;
+    }
+
+    .titulo{
+        font-size:30px;
+    }
+
+    .produto{
+        padding:18px;
+    }
+
+    .info h3{
+        font-size:21px;
+    }
+
+    .info p{
+        font-size:17px;
+    }
+
+    .resumo{
+        margin:30px 15px;
+    }
+
+}
+
+/* =========================================
+   RESPONSIVE CELULARES
+========================================= */
+
+@media (max-width:768px){
+
+    header{
+        padding:15px;
+        justify-content:center;
+    }
+
+    .logo{
+        flex-direction:column;
+        gap:8px;
+    }
+
+    .logo img{
+        width:55px;
+        height:55px;
+    }
+
+    .logo h1{
+        font-size:24px;
+        text-align:center;
+    }
+
+    .container{
+        width:95%;
+        margin:20px auto;
+    }
+
+    .titulo{
+        font-size:28px;
+        margin-bottom:25px;
+    }
+
+    .produto{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+        padding:18px;
+    }
+
+    .info{
+        width:100%;
+    }
+
+    .info h3{
+        font-size:20px;
+        line-height:1.4;
+    }
+
+    .info p{
+        font-size:17px;
+    }
+
+    .quantidade{
+        width:100%;
+        justify-content:center;
+    }
+
+    .quantidade button{
+        width:45px;
+        height:45px;
+        font-size:24px;
+    }
+
+    .quantidade span{
+        font-size:22px;
+    }
+
+    .resumo{
+        margin:25px 15px;
+        padding:20px;
+    }
+
+    .resumo h2{
+        font-size:24px;
+    }
+
+    .resumo p{
+        font-size:18px;
+    }
+
+    .botoes{
+        flex-direction:column;
+        margin:25px 15px;
+    }
+
+    .botao{
+        width:100%;
+        font-size:18px;
+        padding:16px;
+    }
+
+}
+
+/* =========================================
+   CELULARES PEQUEÑOS
+========================================= */
+
+@media (max-width:480px){
+
+    .logo h1{
+        font-size:21px;
+    }
+
+    .titulo{
+        font-size:24px;
+    }
+
+    .info h3{
+        font-size:18px;
+    }
+
+    .info p{
+        font-size:15px;
+    }
+
+    .resumo h2{
+        font-size:21px;
+    }
+
+    .resumo p{
+        font-size:16px;
+    }
+
+    .quantidade button{
+        width:40px;
+        height:40px;
+    }
+
+    .botao{
+        font-size:16px;
+        padding:15px;
+    }
+
+}
+
+
+/*==================================
+    MODAL PEDIDO
+===================================*/
+
+.modal{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100vw;
+    height:100vh;
+
+    background:rgba(0,0,0,.75);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:99999;
+
+    padding:20px;
+
+    box-sizing:border-box;
+
+}
+
+
+/*==================================
+    CONTENIDO DEL MODAL
+===================================*/
+
+.modal-contenido{
+
+    width:90%;
+
+    max-width:420px;
+
+    background:#222;
+
+    border-radius:18px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.45);
+
+    animation:modal .25s ease;
+
+    box-sizing:border-box;
+
+}
+
+
+/*==================================
+    ICONO
+===================================*/
+
+.modal-icono{
+
+    font-size:60px;
+
+    margin-bottom:15px;
+
+}
+
+
+/*==================================
+    TITULO
+===================================*/
+
+.modal-contenido h2{
+
+    color:#fff;
+
+    margin-bottom:15px;
+
+}
+
+
+/*==================================
+    TEXTO
+===================================*/
+
+.modal-contenido p{
+
+    color:#ddd;
+
+    line-height:1.6;
+
+    margin-bottom:30px;
+
+}
+
+
+/*==================================
+    BOTONES
+===================================*/
+
+.modal-botoes{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+
+/*==================================
+    BOTÃO CANCELAR
+===================================*/
+
+.btn-cancelar{
+
+    flex:1;
+
+    background:#555;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:14px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+/*==================================
+    BOTÃO CONFIRMAR
+===================================*/
+
+.btn-confirmar{
+
+    flex:1;
+
+    background:#d32f2f;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:14px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+.btn-cancelar:hover{
+
+    background:#666;
+
+}
+
+
+.btn-confirmar:hover{
+
+    background:#b71c1c;
+
+}
+
+
+/*==================================
+    ANIMAÇÃO
+===================================*/
+
+@keyframes modal{
+
+    from{
+
+        transform:scale(.85);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+
+/*==================================
+    MODAL NO CELULAR
+===================================*/
+
+@media(max-width:480px){
+
+    .modal{
+
+        padding:15px;
+
+    }
+
+    .modal-contenido{
+
+        width:100%;
+
+        padding:25px 20px;
+
+    }
+
+    .modal-botoes{
+
+        flex-direction:column;
+
+    }
+
+}
+
+
+
+.tipo-entrega{
+    margin:25px auto;
+    max-width:700px;
+}
+
+.tipo-entrega h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.opcoes-entrega{
+    display:flex;
+    gap:15px;
+    justify-content:center;
+}
+
+.opcao-entrega{
+    flex:1;
+    padding:15px;
+    background:#222;
+    color:#ddd;
+    border:2px solid #555;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.25s ease;
+}
+
+.opcao-entrega:hover{
+    border-color:#777;
+    background:#252525;
+}
+
+.opcao-entrega.selecionado{
+    background:#292929;
+    color:#f2c14e;
+    border:2px solid #c99a2e;
+    transform:translateY(-2px);
+    box-shadow:0 0 8px rgba(201,154,46,.22);
+}
+
+.info-entrega{
+    margin-top:20px;
+    padding:20px;
+    background:#1b1b1b;
+    border-radius:12px;
+}
+
+.info-entrega h3{
+    color:#ff9800;
+}
+
+.info-entrega input{
+    display:block;
+    width:100%;
+    box-sizing:border-box;
+    margin:10px 0;
+    padding:12px;
+    border:1px solid #555;
+    border-radius:8px;
+    background:#222;
+    color:#fff;
+    font-size:15px;
+}
+
+.info-entrega input::placeholder{
+    color:#aaa;
+}
+
+
+/* CARRITO ULTRA COMPACTO */
+
+.container {
+    max-width: 650px;
+    margin: 12px auto;
+}
+
+.titulo {
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.produto {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 6px 9px;
+    margin-bottom: 5px;
+    border-radius: 7px;
+}
+
+.info {
+    flex: 1;
+    min-width: 0;
+}
+
+.info h3 {
+    font-size: 13px;
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
+.info p {
+    font-size: 11px;
+    margin: 0;
+}
+
+.quantidade {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.quantidade button {
+    width: 23px;
+    height: 23px;
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 0;
+}
+
+.quantidade span {
+    font-size: 12px;
+    width: 15px;
+    text-align: center;
+}
+
+.resumo {
+    max-width: 650px;
+    margin: 12px auto;
+    padding: 11px 14px;
+}
+
+.resumo h2 {
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.resumo p {
+    font-size: 13px;
+    margin: 4px 0;
+}
+
+.tipo-entrega {
+    max-width: 650px;
+    margin: 12px auto;
+}
+
+.tipo-entrega h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.info-entrega {
+    padding: 10px;
+    margin-top: 8px;
+}
+
+.botoes {
+    max-width: 650px;
+    margin: 12px auto;
+}
+
+.botao {
+    padding: 10px;
+    font-size: 13px;
+}
+
+/* CELULARES */
+
+@media (max-width: 768px) {
+    .container,
+    .resumo,
+    .tipo-entrega,
+    .botoes {
+        width: 94%;
+    }
+
+    .produto {
+        flex-direction: row !important;
+        padding: 6px 7px;
+        gap: 5px;
+    }
+
+    .info h3 {
+        font-size: 12px;
+    }
+
+    .info p {
+        font-size: 10px;
+    }
+
+    .quantidade button {
+        width: 22px;
+        height: 22px;
+        font-size: 13px;
+    }
+
+    .quantidade span {
+        font-size: 11px;
+        width: 13px;
+    }
+}
+
+/* =================================
+   EFECTO DE CLIC EN LOS BOTONES
+================================= */
+
+.botao {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.botao:active {
+    transform: scale(0.94);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.botao.presionado {
+    transform: scale(0.94);
+    filter: brightness(0.85);
+}
+
+/* MENSAJE DE PEDIDO EXITOSO */
+
+#modalSucessoPedido {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    padding: 20px;
+}
+
+.caixa-sucesso {
+    background: #171717;
+    border: 1px solid #D6B45A;
+    border-radius: 14px;
+    padding: 35px 25px;
+    text-align: center;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 0 20px rgba(214,180,90,0.15);
+}
+
+.icone-sucesso {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 2px solid #D6B45A;
+    color: #D6B45A;
+    font-size: 32px;
+    line-height: 51px;
+    margin: 0 auto 20px;
+}
+
+.caixa-sucesso h2 {
+    color: #D6B45A;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.caixa-sucesso p {
+    color: white;
+    margin-bottom: 25px;
+}
+
+.caixa-sucesso button {
+    background: #D6B45A;
+    color: #111;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* =================================
+   TARJETA DE PEDIDO ENVIADO
+================================= */
+
+#modalSucessoPedido {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.88);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.caixa-sucesso {
+    width: 100%;
+    max-width: 390px;
+    background: #151515;
+    border: 1px solid #D6B45A;
+    border-radius: 18px;
+    padding: 30px 22px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(214, 180, 90, 0.18);
+    animation: aparecerSucesso 0.35s ease;
+}
+
+@keyframes aparecerSucesso {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.icone-sucesso {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    border: 2px solid #D6B45A;
+    color: #D6B45A;
+    font-size: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.caixa-sucesso h2 {
+    color: #D6B45A;
+    font-size: 23px;
+    margin-bottom: 16px;
+}
+
+.caixa-sucesso p {
+    color: #eeeeee;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.caixa-sucesso .destaque {
+    color: #D6B45A;
+    font-weight: bold;
+}
+
+.botao-ok-sucesso {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    background: linear-gradient(135deg, #D6B45A, #A98532);
+    border: none;
+    border-radius: 9px;
+    color: #111;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+<img src="0.png">
+
+<h1>LJ PIZZAS</h1>
+
+</div>
+
+</header>
+
+<div class="container">
+
+<h2 class="titulo">
+
+🛒 Meu Pedido
+
+</h2>
+
+<div id="listaProdutos"></div>
+
+</div>
+
+<div class="resumo">
+
+<h2>Resumo do Pedido</h2>
+
+<p>
+Total de itens:
+<strong id="totalItens">0</strong>
+</p>
+
+<p>
+Total:
+<strong id="valorTotal">
+R$ 0,00
+</strong>
+</p>
+
+</div>
+
+
+<div class="botoes">
+
+    <button
+        type="button"
+        class="botao voltar"
+        onclick="window.location.href='index.html'">
+
+        ← Continuar Comprando
+
+    </button>
+
+    <button
+        type="button"
+        class="botao confirmar"
+        id="confirmarPedido"
+        onclick="confirmarPedido()">
+
+        Confirmar Pedido
+
+    </button>
+
+</div>
+
+</div>
+
+<script>
+
+const listaProdutos = document.getElementById("listaProdutos");
+
+const CLAVE_CARRITO = "carritoMenuDigital";
+
+/* =====================================
+   CONFIGURACIÓN GOOGLE FORMS
+===================================== */
+
+const URL_GOOGLE_FORMS =
+"https://docs.google.com/forms/d/e/1FAIpQLSdtojLJXrHPz1I1EI_AcSwRKyKcyhwdtRd3I_7fYJH0-zTZSA/formResponse";
+
+const CAMPOS_FORMS = {
+    pedido: "entry.134422324",
+    fecha: "entry.299394370",
+    hora: "entry.1917413173",
+    productos: "entry.1931663519",
+    total: "entry.1240057573"
+};
+
+
+/* =====================================
+   LEER CARRITO
+===================================== */
+
+function obtenerProductos() {
+
+    try {
+        return JSON.parse(
+            localStorage.getItem(CLAVE_CARRITO) || "[]"
+        );
+    } catch (error) {
+        return [];
+    }
+
+}
+
+
+/* =====================================
+   MOSTRAR CARRITO
+===================================== */
+
+function cargarCarrito() {
+
+    const carrito = obtenerProductos();
+
+    let total = 0;
+    let itens = 0;
+
+    if (carrito.length === 0) {
+
+        listaProdutos.innerHTML = `
+            <p style="text-align:center;font-size:18px;color:#ddd">
+                Seu carrinho está vazio.
+            </p>
+        `;
+
+        document.getElementById("totalItens").textContent = "0";
+        document.getElementById("valorTotal").textContent = "R$ 0,00";
+
+        return;
+    }
+
+    listaProdutos.innerHTML = "";
+
+    carrito.forEach((produto, indice) => {
+
+        const quantidade = Number(produto.cantidad) || 0;
+        const preco = Number(produto.precio ?? produto.preco) || 0;
+
+        total += preco * quantidade;
+        itens += quantidade;
+
+        listaProdutos.innerHTML += `
+
+            <div class="produto">
+
+                <div class="info">
+
+                    <h3>${produto.nombre}</h3>
+
+                    <p>
+                        R$ ${preco.toFixed(2).replace(".", ",")}
+                    </p>
+
+                </div>
+
+                <div class="quantidade">
+
+                    <button onclick="menos(${indice})">-</button>
+
+                    <span>${quantidade}</span>
+
+                    <button onclick="mais(${indice})">+</button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+    document.getElementById("totalItens").textContent = itens;
+
+    document.getElementById("valorTotal").textContent =
+        "R$ " + total.toFixed(2).replace(".", ",");
+
+}
+
+
+/* =====================================
+   AUMENTAR QUANTIDADE
+===================================== */
+
+function mais(indice) {
+
+    let carrito = obtenerProductos();
+
+    if (!carrito[indice]) return;
+
+    carrito[indice].cantidad++;
+
+    localStorage.setItem(
+        CLAVE_CARRITO,
+        JSON.stringify(carrito)
+    );
+
+    cargarCarrito();
+
+}
+
+
+/* =====================================
+   DIMINUIR QUANTIDADE
+===================================== */
+
+function menos(indice) {
+
+    let carrito = obtenerProductos();
+
+    if (!carrito[indice]) return;
+
+    carrito[indice].cantidad--;
+
+    if (carrito[indice].cantidad <= 0) {
+        carrito.splice(indice, 1);
+    }
+
+    localStorage.setItem(
+        CLAVE_CARRITO,
+        JSON.stringify(carrito)
+    );
+
+    cargarCarrito();
+
+}
+
+
+/* =====================================
+   GERAR ID DO PEDIDO
+===================================== */
+
+function gerarIdPedido() {
+
+    return "LJ-" + Date.now();
+
+}
+
+/* =========================================
+   LJ PIZZAS - ENVÍO A GOOGLE FORMS
+========================================= */
+
+let pedidoEnviando = false;
+function confirmarPedido() {
+
+    if (pedidoEnviando) return;
+
+    const carrito = JSON.parse(
+        localStorage.getItem("carritoMenuDigital")
+    ) || [];
+
+    if (carrito.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+    }
+
+    let total = 0;
+
+    const productos = carrito.map(produto => {
+
+        const quantidade = Number(produto.cantidad) || 0;
+
+        const preco = Number(
+            produto.precio ?? produto.preco
+        ) || 0;
+
+        const subtotal = quantidade * preco;
+
+        total += subtotal;
+
+        return `${produto.nombre} x ${quantidade} - R$ ${preco.toFixed(2).replace(".", ",")}`;
+
+    }).join("\n");
+
+    const idPedido = "LJ-" + Date.now();
+
+    const fecha = new Date().toLocaleDateString("pt-BR");
+
+    const hora = new Date().toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
+    const iframe = document.createElement("iframe");
+
+    const nombreIframe = "googleFormsPedido_" + Date.now();
+
+    iframe.name = nombreIframe;
+    iframe.style.display = "none";
+
+    document.body.appendChild(iframe);
+
+    const formulario = document.createElement("form");
+
+    formulario.method = "POST";
+    formulario.action = URL_GOOGLE_FORMS;
+    formulario.target = nombreIframe;
+    formulario.style.display = "none";
+
+    const campos = {
+        "entry.134422324": idPedido,
+        "entry.299394370": fecha,
+        "entry.1917413173": hora,
+        "entry.1931663519": productos,
+        "entry.1240057573": total.toFixed(2).replace(".", ",")
+    };
+
+    Object.entries(campos).forEach(([nombre, valor]) => {
+
+        const input = document.createElement("input");
+
+        input.type = "hidden";
+        input.name = nombre;
+        input.value = valor;
+
+        formulario.appendChild(input);
+
+    });
+
+    document.body.appendChild(formulario);
+
+    pedidoEnviando = true;
+
+    const botao = document.getElementById("confirmarPedido");
+
+    if (botao) {
+        botao.disabled = true;
+        botao.textContent = "Enviando pedido...";
+    }
+
+    let formularioEnviado = false;
+
+    const tempoLimite = setTimeout(() => {
+
+        if (!formularioEnviado) {
+
+            pedidoEnviando = false;
+
+            if (botao) {
+                botao.disabled = false;
+                botao.textContent = "Confirmar Pedido";
+            }
+
+            alert(
+                "Não foi possível confirmar o envio. Verifique sua conexão e tente novamente."
+            );
+
+            formulario.remove();
+            iframe.remove();
+
+        }
+
+    }, 20000);
+
+    // Espera o iframe estar pronto antes do envio.
+    iframe.addEventListener("load", function() {
+
+        if (formularioEnviado) return;
+
+        formularioEnviado = true;
+
+        clearTimeout(tempoLimite);
+
+        formulario.remove();
+
+        document.getElementById("modalSucessoPedido").style.display = "flex";
+
+    });
+
+    // Aguarda o carregamento inicial do iframe.
+    setTimeout(() => {
+
+        if (!pedidoEnviando) return;
+
+        formulario.submit();
+
+    }, 700);
+
+}
+
+
+/* =========================================
+   BOTÓN OK - FINALIZAR PEDIDO
+========================================= */
+
+function finalizarPedido() {
+
+    // Vacía el carrito solamente al pulsar OK.
+    localStorage.removeItem("carritoMenuDigital");
+
+    pedidoEnviando = false;
+
+    // Regresa al menú digital.
+    window.location.href = "index.html";
+
+}
+
+/* =====================================
+   EFECTO VISUAL DE CLIC
+===================================== */
+
+document.querySelectorAll(".botao").forEach(boton => {
+
+    boton.addEventListener("click", function() {
+
+        this.classList.add("presionado");
+
+        setTimeout(() => {
+
+            this.classList.remove("presionado");
+
+        }, 180);
+
+    });
+
+});
+
+
+/* =====================================
+   INICIALIZAR
+===================================== */
+
+document.addEventListener("DOMContentLoaded", cargarCarrito);
+
+cargarCarrito();
+
+</script>
+
+<!-- TARJETA DE CONFIRMACIÓN -->
+
+<div id="modalSucessoPedido">
+
+    <div class="caixa-sucesso">
+
+        <div class="icone-sucesso">
+            ✓
+        </div>
+
+        <h2>PEDIDO ENVIADO COM SUCESSO!</h2>
+
+        <p>
+            Seu pedido foi recebido pela
+            <strong>LJ PIZZAS!</strong>
+        </p>
+
+        <p>
+            Nossa equipe já está preparando
+            tudo com muito carinho.
+        </p>
+
+        <p class="destaque">
+            Agora é só aguardar sua comida! 🍕
+        </p>
+
+        <p>
+            Precisa de ajuda ou tem alguma dúvida?
+            Entre em contato com nossa atendente.
+        </p>
+
+        <p>
+            Obrigado por escolher LJ PIZZAS! ❤️
+        </p>
+
+        <button
+            class="botao-ok-sucesso"
+            onclick="finalizarPedido()">
+            OK
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>
