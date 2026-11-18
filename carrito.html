@@ -1030,6 +1030,19 @@ header{
     font-weight: bold;
     cursor: pointer;
 }
+
+.mesa-cliente {
+    background: #222;
+    border: 1px solid #d4a017;
+    color: #FFD54F;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
 </style>
 
 </head>
@@ -1103,6 +1116,26 @@ R$ 0,00
 </div>
 
 </div>
+
+<div class="mesa-cliente">
+    🍽️ Mesa <span id="numeroMesa">--</span>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const mesa = localStorage.getItem("mesaMenuDigital");
+
+    const elemento = document.getElementById("numeroMesa");
+
+    if (elemento) {
+        elemento.textContent = mesa || "No identificada";
+    }
+
+});
+
+
+</script>
 
 <script>
 
@@ -1335,13 +1368,16 @@ function confirmarPedido() {
     formulario.target = nombreIframe;
     formulario.style.display = "none";
 
-    const campos = {
-        "entry.134422324": idPedido,
-        "entry.299394370": fecha,
-        "entry.1917413173": hora,
-        "entry.1931663519": productos,
-        "entry.1240057573": total.toFixed(2).replace(".", ",")
-    };
+    const mesa = localStorage.getItem("mesaMenuDigital") || "";
+
+const campos = {
+    "entry.134422324": idPedido,
+    "entry.299394370": fecha,
+    "entry.1917413173": hora,
+    "entry.1931663519": productos,
+    "entry.1240057573": total.toFixed(2).replace(".", ","),
+    "entry.1496663295": mesa
+};
 
     Object.entries(campos).forEach(([nombre, valor]) => {
 
@@ -1423,13 +1459,21 @@ function confirmarPedido() {
 
 function finalizarPedido() {
 
-    // Vacía el carrito solamente al pulsar OK.
+    // 1. Guarda el número de mesa antes de regresar.
+    const mesa = localStorage.getItem("mesaMenuDigital");
+
+    // 2. Vacía el carrito solamente cuando el cliente pulsa OK.
     localStorage.removeItem("carritoMenuDigital");
 
+    // 3. Restablece el estado del envío.
     pedidoEnviando = false;
 
-    // Regresa al menú digital.
-    window.location.href = "index.html";
+    // 4. Regresa al menú digital conservando la mesa.
+    if (mesa) {
+        window.location.href = "index.html?mesa=" + encodeURIComponent(mesa);
+    } else {
+        window.location.href = "index.html";
+    }
 
 }
 
